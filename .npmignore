@@ -1,0 +1,11 @@
+## All non-dist directories
+config/
+coverage/
+src/
+test/
+
+## Root files
+.babelrc
+.eslintignore
+.gitignore
+.travis.yml
