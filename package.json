@@ -1,6 +1,6 @@
 {
   "name": "dicom-character-set",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts bytes of encoded DICOM text to Javascript DOMString",
   "main": "dist/dicom-character-set.min.js",
   "module": "dist/dicom-character-set.min.js",
