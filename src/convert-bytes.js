@@ -20,15 +20,13 @@ function adjustShiftJISResult (str) {
 function appendRunWithoutPromise (output, byteRunCharacterSet, bytes, byteRunStart, byteRunEnd) {
   const oneRunBytes = preprocessBytes(byteRunCharacterSet, bytes, byteRunStart, byteRunEnd);
 
-
   return output + convertWithoutExtensions(byteRunCharacterSet.encoding, oneRunBytes);
 }
 
-async function appendRunWithPromise (output, byteRunCharacterSet, bytes, byteRunStart, byteRunEnd) {
+function appendRunWithPromise (output, byteRunCharacterSet, bytes, byteRunStart, byteRunEnd) {
   const oneRunBytes = preprocessBytes(byteRunCharacterSet, bytes, byteRunStart, byteRunEnd);
 
-
-  return (await output) + (await convertWithoutExtensionsPromise(byteRunCharacterSet.encoding, oneRunBytes));
+  return (output === '' ? Promise.resolve('') : output).then((lhs) => convertWithoutExtensionsPromise(byteRunCharacterSet.encoding, oneRunBytes).then((rhs) => lhs + rhs));
 }
 
 function checkParameters (specificCharacterSet, bytes) {

@@ -10,21 +10,25 @@ Install
 
 Install via [NPM](https://www.npmjs.com/):
 
-`npm install dicom-parser`
+`npm install dicom-character-set`
 
-Or get a packaged source file:
+Or get a packaged source file, including polyfills (larger file):
 
 * [dicom-character-set.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set.js)
 * [dicom-character-set.min.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set.min.js)
 
+If you want just the code--without polyfills--use these:
+* [dicom-character-set-no-polyfill.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set-no-polyfill.js)
+* [dicom-character-set-no-polyfill.min.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set-no-polyfill.min.js)
+
 Usage
 -----
-Firefox/Chrome/Safari:
+Firefox/Chrome/Safari/Opera:
 ```
 import { convertBytes } from 'dicom-character-set';
 const str = convertBytes('ISO 2022 IR 149\\ISO 2022 IR 13', uint8ArrayBytes, {vr: 'LT'});
 ```
-Internet Explorer (doesn't support TextDecoder so you have to use promises) :
+Backward compatibility (browsers that don't support TextDecoder, e.g. Internet Explorer and Edge) :
 ```
 import { convertBytesPromise } from 'dicom-character-set';
 
@@ -32,7 +36,7 @@ convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', uint8ArrayBytes, {vr: 'LT'}
     console.log(str);
 });
 ```
-Note: Make sure you're passing the text as a Uint8Array, not as a string! Also, only pass the bytes of the value you want converted, not the bytes for the entire DICOM file.
+Note: Make sure you're passing the text as a Uint8Array, not as a string. Also, only pass the bytes of the value you want converted, not the bytes for the entire DICOM file.
 
 Arguments
 -------

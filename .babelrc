@@ -1,11 +1,14 @@
 {
   "presets": [
-    "env"
+    ["env", {
+      "targets": {
+        "browsers": ["defaults", "not ie < 10", "not chrome < 7", "not firefox < 3.6", "not opera < 11", "not safari < 6"]
+      }
+    }]
   ],
   "plugins": [
-    "transform-object-rest-spread",
     ["transform-runtime", {
-      "polyfill": false,
+      "polyfill": true,
       "regenerator": true
       }]
   ]
