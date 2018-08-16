@@ -1,4 +1,8 @@
 import characterSets from './character-sets.js';
+// to suit node envionment
+if (typeof window === 'undefined') {
+  TextDecoder = require('util').TextDecoder
+}
 
 const ESCAPE_BYTE = 0x1B;
 
