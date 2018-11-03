@@ -34,6 +34,7 @@
     "test:all": "npm run test:chrome && npm run test:firefox",
     "test:chrome": "karma start config/karma/karma-chrome.js",
     "test:firefox": "karma start config/karma/karma-firefox.js",
+    "test:node": "./node_modules/.bin/mocha --reporter spec",
     "test:watch": "karma start config/karma/karma-watch.js",
     "version": "node -p -e \"'export default \\'' + require('./package.json').version + '\\';'\" > src/version.js",
     "watch": "npm run webpack:watch",

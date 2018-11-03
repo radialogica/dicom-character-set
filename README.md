@@ -42,6 +42,16 @@ Both convertBytes and convertBytesPromise take the same arguments. They are, in 
 * Options object (optional). Supported options are:
   * **vr** (string) : the value representation of the text being converted. Gives the decoder a hint for properly handling delimiters. If not specified, the decoder assumes backslash, carriage return, line feed, form feed, and tab all reset the active character set to the first one specified (see [the standard](http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.1.2.5.3) for details).
 
+Node.js
+-------
+To build this library for use in Node.js, just change the target to 'node' in webpack-base.js and run `npm run webpack`. Use it like so:
+```
+const dcs = require('/path/to/dist/dicom-character-set.min.js');
+
+console.log(dcs.convertBytes('ISO_IR 192', new Uint8Array([0xF0, 0x9F, 0x87, 0xBA, 0xF0, 0x9F, 0x87, 0xB8, 0xF0, 0x9F, 0x9A, 0x80])));
+```
+When you use it, don't forget to use an ICU-enabled build of Node.js or else add the full-icu package to your app.
+
 Differences from DICOM standard
 -------------------------------
 In the name of robustness, the behavior varies from the standard DICOM in the following ways:

@@ -4,7 +4,7 @@ const asciiElement = { codeElement: 'G0',
   isASCII: true,
   bytesPerCodePoint: 1 };
 
-const characterSets = {
+export const characterSets = {
 
   /** ********************************
    * Single-byte without extensions *
@@ -217,5 +217,3 @@ const characterSets = {
   GBK: { encoding: 'gbk',
     multiByte: true }
 };
-
-export default characterSets;

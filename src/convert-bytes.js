@@ -1,4 +1,4 @@
-import characterSets from './character-sets.js';
+import { characterSets } from './character-sets.js';
 
 const ESCAPE_BYTE = 0x1B;
 
@@ -11,6 +11,7 @@ const BACKSLASH = 0x5C;
 const EQUAL_SIGN = 0x3D;
 const CARET = 0x5E;
 
+const Decoder = (typeof TextDecoder === 'undefined' && typeof require !== 'undefined') ? require('util').TextDecoder : TextDecoder;
 
 function adjustShiftJISResult (str) {
   // browsers do strict ASCII for these characters, so to be compliant with Shift JIS we replace them
@@ -103,7 +104,7 @@ function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendR
 }
 
 function convertWithoutExtensions (encoding, bytes) {
-  const retVal = new TextDecoder(encoding).decode(bytes);
+  const retVal = new Decoder(encoding).decode(bytes);
 
 
   return (encoding === 'shift-jis') ? adjustShiftJISResult(retVal) : retVal;
