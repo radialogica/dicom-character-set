@@ -1,15 +1,7 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["defaults", "not ie < 10", "not chrome < 7", "not firefox < 3.6", "not opera < 11", "not safari < 6"]
-      }
-    }]
-  ],
   "plugins": [
-    ["transform-runtime", {
-      "polyfill": true,
-      "regenerator": true
-      }]
+    "transform-es2015-arrow-functions",
+    "transform-es2015-block-scoping",
+    "transform-es2015-template-literals"
   ]
 }

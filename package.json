@@ -37,11 +37,9 @@
     "test:watch": "karma start config/karma/karma-watch.js",
     "version": "node -p -e \"'export default \\'' + require('./package.json').version + '\\';'\" > src/version.js",
     "watch": "npm run webpack:watch",
-    "webpack": "npm run clean:dist && npm run webpack:prod && npm run webpack:prod-no-polyfill && npm run webpack:dev && npm run webpack:dev-no-polyfill",
+    "webpack": "npm run clean:dist && npm run webpack:prod && npm run webpack:dev",
     "webpack:dev": "webpack --progress --config ./config/webpack/webpack-dev",
-    "webpack:dev-no-polyfill": "webpack --progress --config ./config/webpack/webpack-dev-no-polyfill",
     "webpack:prod": "webpack --progress --config ./config/webpack/webpack-prod",
-    "webpack:prod-no-polyfill": "webpack --progress --config ./config/webpack/webpack-prod-no-polyfill",
     "webpack:watch": "webpack --progress --debug --watch  --config ./config/webpack"
   },
   "devDependencies": {

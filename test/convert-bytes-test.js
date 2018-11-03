@@ -29,7 +29,9 @@ const examples = {
 
 function getDelimiterExpectedBytes(escapeSequence, value, delimiters) {
   let bytes = [];
-  for (let delimiter of delimiters.split('')) {
+  const delimiterArray = delimiters.split('');
+  for (let delimiterIndex = 0; delimiterIndex < delimiterArray.length; delimiterIndex++) {
+    const delimiter = delimiterArray[delimiterIndex];
     bytes = bytes.concat(escapeSequence.slice(0));
     bytes.push(value);
     bytes.push(delimiter.codePointAt(0));

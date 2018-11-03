@@ -161,7 +161,9 @@ function forceExtensionsIfApplicable (characterSetStrings) {
 
   const returnValue = [];
 
-  for (const characterSetString of characterSetStrings) {
+  for (let i = 0; i < characterSetStrings.length; i++) {
+    const characterSetString = characterSetStrings[i];
+
     if (!returnValue.includes(characterSetString)) {
       returnValue.push(forceExtensions ? characterSetString.replace('ISO_IR', 'ISO 2022 IR') : characterSetString);
     }
@@ -225,7 +227,8 @@ function preprocessBytes (characterSet, bytes, byteStart, byteEnd) {
   if (characterSet.isJISX0212) {
     oneEncodingBytes = processJISX0212(bytes, byteStart, byteEnd);
   } else {
-    oneEncodingBytes = bytes.slice(byteStart, byteEnd);
+    oneEncodingBytes = new Uint8Array(byteEnd - byteStart);
+    oneEncodingBytes.set(new Uint8Array(bytes.buffer, byteStart, byteEnd - byteStart));
     if (characterSet.setHighBit) {
       setHighBit(oneEncodingBytes);
     }
@@ -266,8 +269,12 @@ function escapeSequenceMatches (escapeSequence, bytes, startIndex) {
 }
 
 function readEscapeSequence (bytes, start, extensionSets) {
-  for (const extensionSet of extensionSets) {
-    for (const element of extensionSet.elements) {
+  for (let setIndex = 0; setIndex < extensionSets.length; setIndex++) {
+    const extensionSet = extensionSets[setIndex];
+
+    for (let elementIndex = 0; elementIndex < extensionSet.elements.length; elementIndex++) {
+      const element = extensionSet.elements[elementIndex];
+
       if (escapeSequenceMatches(element.escapeSequence, bytes, start)) {
         return element;
       }

@@ -12,14 +12,10 @@ Install via [NPM](https://www.npmjs.com/):
 
 `npm install dicom-character-set`
 
-Or get a packaged source file, including polyfills (larger file):
+Or get a packaged source file:
 
 * [dicom-character-set.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set.js)
 * [dicom-character-set.min.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set.min.js)
-
-If you want just the code--without polyfills--use these:
-* [dicom-character-set-no-polyfill.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set-no-polyfill.js)
-* [dicom-character-set-no-polyfill.min.js](https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set-no-polyfill.min.js)
 
 Usage
 -----
