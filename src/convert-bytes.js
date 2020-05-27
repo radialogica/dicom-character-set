@@ -70,6 +70,7 @@ function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendR
   let byteRunStart = 0;
   let byteRunCharacterSet;
   let nextSetIndex = 0;
+  let offset = bytes.byteOffset;
 
   // Group bytes into runs based on their encoding so we don't have to use a different
   // decoder for each character. Note that G0 and G1 planes can be different encodings,
@@ -86,7 +87,7 @@ function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendR
     nextSetIndex = next.index;
 
     if (nextSetIndex > byteRunStart) {
-      output = appendRun(output, byteRunCharacterSet, bytes, byteRunStart, nextSetIndex);
+      output = appendRun(output, byteRunCharacterSet, bytes, byteRunStart + offset, nextSetIndex + offset);
     }
 
     byteRunStart = nextSetIndex;
