@@ -37,7 +37,7 @@ Note: Make sure you're passing the text as a Uint8Array, not as a string. Also, 
 Arguments
 -------
 Both convertBytes and convertBytesPromise take the same arguments. They are, in order:
-* Specific Character Set attribute value (0008,0005) from the DICOM file
+* Specific Character Set attribute value (0008,0005) from the DICOM file (either `string` or `undefined`)
 * Text bytes as Uint8Array
 * Options object (optional). Supported options are:
   * **vr** (string) : the value representation of the text being converted. Gives the decoder a hint for properly handling delimiters. If not specified, the decoder assumes backslash, carriage return, line feed, form feed, and tab all reset the active character set to the first one specified (see [the standard](http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.1.2.5.3) for details).
