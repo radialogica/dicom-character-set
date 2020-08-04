@@ -58,7 +58,7 @@ function testSingleCharacterSet(characterSet) {
     expect(returnValue).to.equal(example.value);
 }
 
-function testCharacterSetExtensions(characterSetStrings) {
+function testCharacterSetExtensions(characterSetStrings, byteOffset) {
     // Arrange
     let bytes = [];
     let expectedValue = '';
@@ -77,8 +77,12 @@ function testCharacterSetExtensions(characterSetStrings) {
         expectedValue += examples[exampleName].value;
     }
 
+    if (byteOffset) {
+      bytes = new Array(byteOffset).concat(bytes);
+    }
+
     // Act
-    const returnValue = convertBytes(characterSetStrings.join('\\'), new Uint8Array(bytes), {vr: 'LT'});
+    const returnValue = convertBytes(characterSetStrings.join('\\'), new Uint8Array(new Uint8Array(bytes).buffer, byteOffset), {vr: 'LT'});
 
     // Assert
     expect(returnValue).to.equal(expectedValue);
@@ -138,6 +142,18 @@ describe('convertBytes', () => {
 
       it('should properly convert ISO_IR 192', () => {
         testSingleCharacterSet('ISO_IR 192');
+      });
+
+      it('should properly convert ISO_IR 192 with byteOffset', () => {
+        // Arrange
+        const example = examples['IR 192'];
+        const buffer = new Uint8Array([1, 2, 3].concat(example.bytes)).buffer;
+
+        // Act
+        const returnValue = convertBytes('ISO_IR 192', new Uint8Array(buffer, 3));
+
+        // Assert
+        expect(returnValue).to.equal(example.value);
       });
 
       it('should properly convert GB18030', () => {
@@ -232,6 +248,10 @@ describe('convertBytes', () => {
         testCharacterSetExtensions(['ISO 2022 IR 6', 'ISO 2022 IR 58']);
       });
 
+    it('should properly convert ISO 2022 IR 58 with a byteOffset', () => {
+        testCharacterSetExtensions(['ISO 2022 IR 6', 'ISO 2022 IR 58'], 3);
+    });
+
     it('should properly convert ISO 2022 IR 87 with ISO 2022 IR 149 (separate active code elements)', () => {
       // Since these exist in different code elements, they can be activated simultaneously and not need an escape sequence to switch back
       // Arrange
@@ -247,11 +267,13 @@ describe('convertBytes', () => {
 
     it('should properly convert to ISO 2022 IR 13 with promises', () => {
         // Arrange
-        const bytes = examples['IR 6'].bytes.concat(characterSets['ISO 2022 IR 13'].elements[0].escapeSequence).concat(examples['IR 13'].bytes);
+        const prependBytes = [1, 2, 3];
+        const offset = prependBytes.length;
+        const bytes = prependBytes.concat(examples['IR 6'].bytes).concat(characterSets['ISO 2022 IR 13'].elements[0].escapeSequence).concat(examples['IR 13'].bytes);
         const expectedValue = examples['IR 6'].value + examples['IR 13'].value;
 
         // Act
-        return convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', new Uint8Array(bytes), {vr: 'LT'}).then(returnValue => {
+        return convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', new Uint8Array(new Uint8Array(bytes).buffer, offset), {vr: 'LT'}).then(returnValue => {
           expect(returnValue).to.equal(expectedValue);
         });
       });

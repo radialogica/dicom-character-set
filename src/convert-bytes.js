@@ -229,7 +229,7 @@ function preprocessBytes (characterSet, bytes, byteStart, byteEnd) {
     oneEncodingBytes = processJISX0212(bytes, byteStart, byteEnd);
   } else {
     oneEncodingBytes = new Uint8Array(byteEnd - byteStart);
-    oneEncodingBytes.set(new Uint8Array(bytes.buffer, byteStart, byteEnd - byteStart));
+    oneEncodingBytes.set(new Uint8Array(bytes.buffer, bytes.byteOffset + byteStart, byteEnd - byteStart));
     if (characterSet.setHighBit) {
       setHighBit(oneEncodingBytes);
     }
