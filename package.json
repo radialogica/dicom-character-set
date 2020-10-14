@@ -4,6 +4,9 @@
   "description": "Converts bytes of encoded DICOM text to Javascript DOMString",
   "main": "dist/dicom-character-set.min.js",
   "module": "dist/dicom-character-set.min.js",
+  "files": [
+    "dist/*.min.js*"
+  ],
   "keywords": [
     "DICOM",
     "medical",
@@ -71,6 +74,7 @@
     "shx": "^0.2.2",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.4.1",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^2.0.13"
   }
 }
