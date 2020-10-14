@@ -106,7 +106,7 @@ module.exports = {
         'ignoreTemplateLiterals': false,
         'ignoreRegExpLiterals': true
     }],
-    'max-lines': 'warn',
+    'max-lines': 'off',
     'max-nested-callbacks': 'warn',
     'max-params': ['warn', 7],
     'max-statements': ['warn', 40],
