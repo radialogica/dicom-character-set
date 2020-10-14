@@ -12,7 +12,7 @@ var characterSets = require('../dist/dicom-character-set.js').characterSets;
 const examples = {
     // Single byte (with/without extensions)
     'IR 6': {bytes: [0x7E, 0x20, 0x9, 0x21, 0x5C], value: '~ \t!\\'},
-    'IR 100': {bytes: [0x83, 0xD8, 0xF7, 0xFF], value: 'ƒØ÷ÿ'},
+    'IR 100': {bytes: [0x83, 0xD8, 0xF7, 0xFE, 0xFF], value: 'ƒØ÷þÿ'},
     'IR 101': {bytes: [0xD8, 0xB8, 0xFF], value: 'Ř¸˙'},
     'IR 109': {bytes: [0xA7, 0xA1, 0xF5], value: '§Ħġ'},
     'IR 110': {bytes: [0xF1, 0xC6, 0xE6], value: 'ņÆæ'},
