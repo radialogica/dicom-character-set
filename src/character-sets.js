@@ -1,6 +1,6 @@
 const asciiElement = { codeElement: 'G0',
   escapeSequence: [0x1B, 0x28, 0x42],
-  encoding: 'windows-1254',
+  encoding: 'windows-1252',
   isASCII: true,
   bytesPerCodePoint: 1 };
 
@@ -14,7 +14,7 @@ export const characterSets = {
   'ISO_IR 6': { encoding: 'utf-8' },
 
   // Latin alphabet No. 1
-  'ISO_IR 100': { encoding: 'windows-1254' },
+  'ISO_IR 100': { encoding: 'windows-1252' },
 
   // Latin alphabet No. 2
   'ISO_IR 101': { encoding: 'iso-8859-2' },
@@ -61,7 +61,7 @@ export const characterSets = {
     extension: true,
     elements: [asciiElement, { codeElement: 'G1',
       escapeSequence: [0x1B, 0x2D, 0x41],
-      encoding: 'windows-1254',
+      encoding: 'windows-1252',
       bytesPerCodePoint: 1 }]
   },
 
