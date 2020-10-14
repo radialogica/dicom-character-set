@@ -44,13 +44,8 @@ Both convertBytes and convertBytesPromise take the same arguments. They are, in 
 
 Node.js
 -------
-To build this library for use in Node.js, just change the target to 'node' in webpack-base.js and run `npm run webpack`. Use it like so:
-```
-const dcs = require('/path/to/dist/dicom-character-set.min.js');
-
-console.log(dcs.convertBytes('ISO_IR 192', new Uint8Array([0xF0, 0x9F, 0x87, 0xBA, 0xF0, 0x9F, 0x87, 0xB8, 0xF0, 0x9F, 0x9A, 0x80])));
-```
-When you use it, don't forget to use an ICU-enabled build of Node.js or else add the full-icu package to your app.
+This library can be used as-is on Node.js versions 11 and up.
+You may need to use an ICU-enabled build of Node.js or else add the full-icu package to your app.
 
 Differences from DICOM standard
 -------------------------------
