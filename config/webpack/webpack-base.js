@@ -3,6 +3,7 @@ const rootPath = process.cwd();
 const context = path.join(rootPath, "src");
 const outputPath = path.join(rootPath, 'dist');
 const bannerPlugin = require(path.join(__dirname, 'plugins', 'banner.js'));
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -14,27 +15,16 @@ module.exports = {
   output: {
     filename: '[name].js',
     library: {
-      commonjs: "dicom-character-set",
-      amd: "dicom-character-set",
-      root: 'dicom-character-set'
+      name: "dicom-character-set",
+      type: 'umd'
     },
-    libraryTarget: 'umd',
-    globalObject: 'this',
+    globalObject: ('typeof self !== "undefined" ? self : this'), // i.e. https://github.com/umdjs/umd/blob/master/templates/commonjsStrict.js
     path: outputPath,
     umdNamedDefine: false
   },
   devtool: 'source-map',
   module: {
     rules: [{
-      enforce: 'pre',
-      test: /\.js$/,
-      exclude: /(node_modules|test)/,
-      loader: 'eslint-loader',
-      options: {
-        failOnError: false
-      }
-    },
-    {
       test: /\.js$/,
       exclude: /(node_modules)/,
       use: [{
@@ -43,6 +33,7 @@ module.exports = {
     }]
   },
   plugins: [
-    bannerPlugin()
+    bannerPlugin(),
+    new ESLintPlugin()
   ]
 };

@@ -9,15 +9,6 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 delete webpackConfig.output.library;
 
 // Code coverage
-webpackConfig.module.rules.push({
-  test: /\.js$/,
-  include: path.resolve('./src/'),
-  loader: 'istanbul-instrumenter-loader',
-  query: {
-    esModules: true
-  }
-});
-
 module.exports = {
   basePath: '../../',
   frameworks: ['mocha'],
