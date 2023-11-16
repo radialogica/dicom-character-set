@@ -14,6 +14,7 @@ module.exports = {
   frameworks: ['mocha'],
   reporters: ['progress', 'coverage'],
   files: [
+    'src/**/*.js',
     'test/**/*-test.js'
   ],
 
@@ -26,7 +27,7 @@ module.exports = {
   ],
 
   preprocessors: {
-    'src/**/*.js': ['webpack'],
+    'src/**/*.js': ['webpack', 'coverage'],
     'test/**/*-test.js': ['webpack']
   },
 
