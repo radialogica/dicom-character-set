@@ -1,5 +1,5 @@
-[![npm version](https://badge.fury.io/js/dicom-character-set.svg)](https://badge.fury.io/js/dicom-character-set) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/radialogica/dicom-character-set.svg?branch=master)](https://travis-ci.org/radialogica/dicom-character-set)
-[![Coverage Status](https://coveralls.io/repos/github/radialogica/dicom-character-set/badge.svg?branch=master)](https://coveralls.io/github/radialogica/dicom-character-set)
+[![npm version](https://badge.fury.io/js/dicom-character-set.svg)](https://badge.fury.io/js/dicom-character-set) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/radialogica/dicom-character-set.svg?branch=main)](https://travis-ci.org/radialogica/dicom-character-set)
+[![Coverage Status](https://coveralls.io/repos/github/radialogica/dicom-character-set/badge.svg?branch=main)](https://coveralls.io/github/radialogica/dicom-character-set)
 
 dicom-character-set
 ===================
