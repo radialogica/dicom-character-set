@@ -1,11 +1,13 @@
-const path = require('path');
+import path from 'path';
 const rootPath = process.cwd();
 const context = path.join(rootPath, "src");
 const outputPath = path.join(rootPath, 'dist');
-const bannerPlugin = require(path.join(__dirname, 'plugins', 'banner.js'));
-const ESLintPlugin = require('eslint-webpack-plugin');
+import url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const bannerPlugin = await import(path.join(__dirname, 'plugins', 'banner.js'));
+import ESLintPlugin from 'eslint-webpack-plugin';
 
-module.exports = {
+export default {
   mode: 'development',
   context: context,
   entry: {
@@ -33,7 +35,7 @@ module.exports = {
     }]
   },
   plugins: [
-    bannerPlugin(),
+    bannerPlugin.default(),
     new ESLintPlugin()
   ]
 };

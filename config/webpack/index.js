@@ -1,5 +1,4 @@
-const path = require('path');
 const env = process.env.ENV || 'dev';
-const config = require(`./webpack-${env}`);
+import config from `./webpack-${env}.js`;
 
-module.exports = config;
+export default config;

@@ -1,15 +1,15 @@
-const path = require('path');
-const webpackConfig = require('../webpack');
+import webpackConfig from '../webpack';
+import puppeteer from 'puppeteer';
 
 /* eslint no-process-env:0 */
-process.env.CHROME_BIN = require('puppeteer').executablePath();
+process.env.CHROME_BIN = puppeteer.executablePath();
 
 // Deleting output.library to avoid "Uncaught SyntaxError: Unexpected token /" error
 // when running tests (var test/foo_test.js = ...)
 delete webpackConfig.output.library;
 
 // Code coverage
-module.exports = {
+export default {
   basePath: '../../',
   frameworks: ['mocha'],
   reporters: ['progress', 'coverage'],

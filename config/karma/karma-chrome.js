@@ -1,6 +1,6 @@
-const extendConfiguration = require('./karma-extend.js');
+import extendConfiguration from './karma-extend.js';
 
-module.exports = function (config) {
+export default function (config) {
   'use strict';
   config.set(extendConfiguration({
     singleRun: true,

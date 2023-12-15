@@ -4,6 +4,7 @@
   "description": "Converts bytes of encoded DICOM text to Javascript DOMString",
   "main": "dist/dicom-character-set.min.js",
   "module": "dist/dicom-character-set.min.js",
+  "type": "module",
   "files": [
     "dist/*.min.js*"
   ],
@@ -38,7 +39,7 @@
     "test:chrome": "karma start config/karma/karma-chrome.js",
     "test:firefox": "karma start config/karma/karma-firefox.js",
     "test:node": "./node_modules/.bin/mocha --reporter spec",
-    "test:watch": "karma start config/karma/karma-watch.js",
+        "test:watch": "karma start config/karma/karma-watch.js",
     "version": "node -p -e \"'export default \\'' + require('./package.json').version + '\\';'\" > src/version.js",
     "watch": "npm run webpack:watch",
     "webpack": "npm run clean:dist && npm run webpack:prod && npm run webpack:dev",
@@ -49,10 +50,10 @@
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/eslint-parser": "^7.17.0",
-    "babel-loader": "^8.2.3",
+        "babel-loader": "^8.2.3",
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "@babel/plugin-transform-runtime": "^7.17.0",
+"@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "chai": "^4.3.6",
     "coveralls": "^3.0.0",
