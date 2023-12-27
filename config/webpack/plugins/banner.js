@@ -1,8 +1,9 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import { readFileSync } from 'fs';
+import webpack from 'webpack';
 const rootPath = process.cwd();
-const pkgPath = path.join(rootPath, "package");
-const pkg = require(pkgPath);
+const pkgPath = path.join(rootPath, "package.json");
+const pkg = JSON.parse(readFileSync(new URL(pkgPath, import.meta.url)));
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -19,7 +20,7 @@ const getBanner = () => {
          `| (c) 2018 Radialogica, LLC | ${pkg.homepage} */`
 }
 
-module.exports = () => {
+export default () => {
   return new webpack.BannerPlugin({
     banner: getBanner(),
     entryOnly: true,

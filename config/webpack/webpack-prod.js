@@ -1,6 +1,6 @@
-const merge = require('./merge');
-const baseConfig = require('./webpack-dev');
-const TerserPlugin = require('terser-webpack-plugin');
+import merge from './merge.js';
+import baseConfig from './webpack-dev.js';
+import TerserPlugin from 'terser-webpack-plugin';
 
 const prodConfig = {
   mode: "production",
@@ -12,4 +12,4 @@ const prodConfig = {
 
 baseConfig.output.filename = baseConfig.output.filename.replace('.js', '.min.js');
 
-module.exports = merge(baseConfig, prodConfig);
+export default merge(baseConfig, prodConfig);
