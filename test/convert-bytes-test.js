@@ -1,13 +1,6 @@
-import { expect } from 'chai';
+import { expect } from '@esm-bundle/chai';
 import { convertBytes, convertBytesPromise } from '../src/convert-bytes.js';
 import { characterSets } from '../src/character-sets.js';
-
-/* Use these instead of the above imports for testing in node.js:
-var expect = require('chai').expect;
-var convertBytes =  require('../dist/dicom-character-set.js').convertBytes;
-var convertBytesPromise =  require('../dist/dicom-character-set.js').convertBytesPromise;
-var characterSets = require('../dist/dicom-character-set.js').characterSets;
-*/
 
 const examples = {
     // Single byte (with/without extensions)
@@ -163,7 +156,7 @@ describe('convertBytes', () => {
       it('should properly convert GBK', () => {
         testSingleCharacterSet('GBK');
       });
-
+if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
       it('should properly convert GBK with promises', () => {
         // Arrange
         const example = examples['GBK'];
@@ -173,6 +166,7 @@ describe('convertBytes', () => {
           expect(returnValue).to.equal(example.value);
         });
       });
+}
   });
 
   describe('single byte with extensions', () => {
@@ -265,18 +259,20 @@ describe('convertBytes', () => {
       expect(returnValue).to.equal(expectedValue);
     });
 
-    it('should properly convert to ISO 2022 IR 13 with promises', () => {
-        // Arrange
-        const prependBytes = [1, 2, 3];
-        const offset = prependBytes.length;
-        const bytes = prependBytes.concat(examples['IR 6'].bytes).concat(characterSets['ISO 2022 IR 13'].elements[0].escapeSequence).concat(examples['IR 13'].bytes);
-        const expectedValue = examples['IR 6'].value + examples['IR 13'].value;
+if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
+      it('should properly convert to ISO 2022 IR 13 with promises', () => {
+          // Arrange
+          const prependBytes = [1, 2, 3];
+          const offset = prependBytes.length;
+          const bytes = prependBytes.concat(examples['IR 6'].bytes).concat(characterSets['ISO 2022 IR 13'].elements[0].escapeSequence).concat(examples['IR 13'].bytes);
+          const expectedValue = examples['IR 6'].value + examples['IR 13'].value;
 
-        // Act
-        return convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', new Uint8Array(new Uint8Array(bytes).buffer, offset), {vr: 'LT'}).then(returnValue => {
-          expect(returnValue).to.equal(expectedValue);
+          // Act
+          return convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', new Uint8Array(new Uint8Array(bytes).buffer, offset), {vr: 'LT'}).then(returnValue => {
+            expect(returnValue).to.equal(expectedValue);
+          });
         });
-      });
+}
   });
 
   describe('robustness', () => {
