@@ -43,7 +43,7 @@
     "version": "node -p -e \"'export default \\'' + require('./package.json').version + '\\';'\" > src/version.js",
     "watch": "npm run webpack:watch",
     "webpack": "npm run clean:dist && npm run webpack:prod && npm run webpack:dev",
-    "webpack:dev": "webpack --progress --config ./config/webpack/webpack-dev",
+    "webpack:dev": "webpack --progress --config ./config/webpack/webpack-dev.js",
     "webpack:prod": "webpack --progress --config ./config/webpack/webpack-prod.js",
     "webpack:watch": "webpack --progress --debug --watch  --config ./config/webpack"
   },
