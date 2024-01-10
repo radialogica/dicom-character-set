@@ -1,12 +1,15 @@
 {
   "name": "dicom-character-set",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Converts bytes of encoded DICOM text to Javascript DOMString",
-  "main": "dist/dicom-character-set.min.js",
-  "module": "dist/dicom-character-set.min.js",
   "type": "module",
+  "exports": {
+    "import": "./src/index.js",
+    "require": "./dist/dicom-character-set.min.cjs"
+  },
   "files": [
-    "dist/*.min.js*"
+    "dist/*.*js",
+    "src/**/*.js"
   ],
   "keywords": [
     "DICOM",
@@ -46,8 +49,8 @@
     "watch": "npm run webpack:watch",
     "webpack": "npm run clean:dist && npm run webpack:prod && npm run webpack:dev",
     "webpack:dev": "webpack --progress --config ./config/webpack/webpack-dev.js",
-    "webpack:prod": "webpack --progress --config ./config/webpack/webpack-prod.js",
-    "webpack:watch": "webpack --progress --debug --watch  --config ./config/webpack"
+    "webpack:prod": "webpack --progress --config ./config/webpack/webpack-prod.js && cp dist/dicom-character-set.min.js dist/dicom-character-set.min.cjs",
+    "webpack:watch": "webpack --progress --watch  --config ./config/webpack/webpack-dev.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

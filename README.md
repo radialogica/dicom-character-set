@@ -19,13 +19,20 @@ Or get a packaged source file:
 
 Usage
 -----
-Firefox/Chrome/Safari/Opera:
-```
+Firefox/Chrome/Safari/Opera (via npm):
+```javascript
 import { convertBytes } from 'dicom-character-set';
 const str = convertBytes('ISO 2022 IR 149\\ISO 2022 IR 13', uint8ArrayBytes, {vr: 'LT'});
 ```
-Backward compatibility (browsers that don't support TextDecoder, e.g. Internet Explorer and Edge) :
+Firefox/Chrome/Safari/Opera (using the packaged source file above):
+```html
+<script src="https://unpkg.com/dicom-character-set@latest/dist/dicom-character-set.min.js"></script>
+<script>
+  const str = window['dicom-character-set'].convertBytes('ISO 2022 IR 149\\ISO 2022 IR 13', uint8ArrayBytes, {vr: 'LT'});
+</script>
 ```
+Backward compatibility (browsers that don't support TextDecoder, e.g. Internet Explorer and Edge) :
+```javascript
 import { convertBytesPromise } from 'dicom-character-set';
 
 convertBytesPromise('ISO 2022 IR 6\\ISO 2022 IR 13', uint8ArrayBytes, {vr: 'LT'}).then(str => {
@@ -45,7 +52,7 @@ Both convertBytes and convertBytesPromise take the same arguments. They are, in 
 Node.js
 -------
 This library can be used as-is on Node.js versions 11 and up.
-You may need to use an ICU-enabled build of Node.js or else add the full-icu package to your app.
+You may need to use an ICU-enabled build of Node.js or else add the full-icu package to your app for versions of Node prior to 13.
 
 Differences from DICOM standard
 -------------------------------

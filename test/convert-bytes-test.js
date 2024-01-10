@@ -1,6 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import { convertBytes, convertBytesPromise } from '../src/convert-bytes.js';
-import { characterSets } from '../src/character-sets.js';
+import { characterSets, convertBytes, convertBytesPromise } from '../src/index.js';
 
 const examples = {
     // Single byte (with/without extensions)
@@ -300,7 +299,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
       expect(returnValue).to.equal(expectedValue);
     });
 
-     it('should print characters with only ISO 2022 IR 13 selected', () => {
+    it('should print characters with only ISO 2022 IR 13 selected', () => {
       // Arrange
       const bytes = characterSets['ISO 2022 IR 13'].elements[1].escapeSequence.concat(examples['IR 13'].bytes);
       const expectedValue = examples['IR 13'].value;
