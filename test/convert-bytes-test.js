@@ -39,12 +39,12 @@ function getDelimiterExpectedBytes(escapeSequence, value, delimiters) {
   return bytes;
 }
 
-function testSingleCharacterSet(characterSet) {
+function testSingleCharacterSet(characterSet, options) {
     // Arrange
     const example = examples[characterSet.replace('ISO_', '')];
 
     // Act
-    const returnValue = convertBytes(characterSet, new Uint8Array(example.bytes));
+    const returnValue = convertBytes(characterSet, new Uint8Array(example.bytes), options);
 
     // Assert
     expect(returnValue).to.equal(example.value);
@@ -124,8 +124,21 @@ describe('convertBytes', () => {
         testSingleCharacterSet('ISO_IR 148');
       });
 
-      it('should properly convert ISO_IR 13', () => {
-        testSingleCharacterSet('ISO_IR 13');
+      it('should properly convert ISO_IR 13 for single-valued VR', () => {
+        // Pass the VR to indicate we're not using 0x5c as a multi-value separator
+        testSingleCharacterSet('ISO_IR 13', {vr: 'LT'});
+      });
+
+      it('should properly convert ISO_IR 13 for multi-valued VR', () => {
+        // Arrange
+        const example = examples['IR 13'];
+
+        // Act
+        // Pass the VR to indicate we're using 0x5c as a multi-value separator
+        const returnValue = convertBytes('ISO_IR 13', new Uint8Array(example.bytes), {vr: 'PN'});
+
+        // Assert
+        expect(returnValue).to.equal(example.value.replace('¥', '\\'));
       });
 
       it('should properly convert ISO_IR 166', () => {
@@ -488,7 +501,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = '\\ISO 2022 IR 87';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -505,7 +518,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = 'ISO 2022 IR 13\\ISO 2022 IR 87';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -518,7 +531,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = '\\ISO 2022 IR 149';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -532,7 +545,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = '\\ISO 2022 IR 149';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -546,7 +559,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = 'ISO_IR 192';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -574,7 +587,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = 'GB18030';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);
@@ -602,7 +615,7 @@ if (typeof(FileReader) !== 'undefined') { // Node.js doesn't have FileReader
         const characterSet = '\\ISO 2022 IR 58';
 
         // Act
-        const returnValue = convertBytes(characterSet, new Uint8Array(bytes));
+        const returnValue = convertBytes(characterSet, new Uint8Array(bytes), {vr: 'PN'});
 
         // Assert
         expect(returnValue).to.equal(expectedValue);

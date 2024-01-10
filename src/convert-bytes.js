@@ -6,26 +6,27 @@ const CARRIAGE_RETURN = 0xA;
 const LINE_FEED = 0xC;
 const FORM_FEED = 0xD;
 const TAB = 0x9;
-// Aka yen symbol in Romaji
-const BACKSLASH = 0x5C;
+const BACKSLASH = 0x5C; // Aka yen symbol in Romaji
 const EQUAL_SIGN = 0x3D;
 const CARET = 0x5E;
 
-function adjustShiftJISResult (str) {
-  // browsers do strict ASCII for these characters, so to be compliant with Shift JIS we replace them
-  return str.replace(/~/g, '‾').replace(/\\/g, '¥');
+function adjustShiftJISResult (delimiters, str) {
+  // browsers do strict ASCII for \ and ~, so to be compliant with Shift JIS we replace them
+  const fixedTildes = str.replace(/~/g, '‾');
+  // If 0x5c is being used as a multi-value separator, we must not replace it so it stays as U+005c
+  return delimiters.includes(BACKSLASH) ? fixedTildes : fixedTildes.replace(/\\/g, '¥');
 }
 
-function appendRunWithoutPromise (output, byteRunCharacterSet, bytes, byteRunStart, byteRunEnd) {
+function appendRunWithoutPromise (output, byteRunCharacterSet, delimiters, bytes, byteRunStart, byteRunEnd) {
   const oneRunBytes = preprocessBytes(byteRunCharacterSet, bytes, byteRunStart, byteRunEnd);
 
-  return output + convertWithoutExtensions(byteRunCharacterSet.encoding, oneRunBytes);
+  return output + convertWithoutExtensions(byteRunCharacterSet.encoding, delimiters, oneRunBytes);
 }
 
-function appendRunWithPromise (output, byteRunCharacterSet, bytes, byteRunStart, byteRunEnd) {
+function appendRunWithPromise (output, byteRunCharacterSet, delimiters, bytes, byteRunStart, byteRunEnd) {
   const oneRunBytes = preprocessBytes(byteRunCharacterSet, bytes, byteRunStart, byteRunEnd);
 
-  return (output === '' ? Promise.resolve('') : output).then((lhs) => convertWithoutExtensionsPromise(byteRunCharacterSet.encoding, oneRunBytes).then((rhs) => lhs + rhs));
+  return (output === '' ? Promise.resolve('') : output).then((lhs) => convertWithoutExtensionsPromise(byteRunCharacterSet.encoding, delimiters, oneRunBytes).then((rhs) => lhs + rhs));
 }
 
 function checkParameters (specificCharacterSet, bytes) {
@@ -41,15 +42,15 @@ function convertBytesCore (withoutExtensionsFunc, appendFunc, specificCharacterS
   checkParameters(specificCharacterSet, bytes);
 
   const characterSetStrings = getCharacterSetStrings(specificCharacterSet);
+  const checkedOptions = options || {};
+  const delimiters = getDelimitersForVR(checkedOptions.vr);
 
   if (characterSetStrings.length === 1 && !characterSetStrings[0].startsWith('ISO 2022')) {
-    return withoutExtensionsFunc(characterSets[characterSetStrings[0]].encoding, bytes);
+    return withoutExtensionsFunc(characterSets[characterSetStrings[0]].encoding, delimiters, bytes);
   }
 
-  const checkedOptions = options || {};
-
   return convertWithExtensions(characterSetStrings.map((characterSet) => characterSets[characterSet]),
-    bytes, getDelimitersForVR(checkedOptions.vr), appendFunc);
+    bytes, delimiters, appendFunc);
 }
 
 function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendRun) {
@@ -84,7 +85,7 @@ function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendR
     nextSetIndex = next.index;
 
     if (nextSetIndex > byteRunStart) {
-      output = appendRun(output, byteRunCharacterSet, bytes, byteRunStart, nextSetIndex);
+      output = appendRun(output, byteRunCharacterSet, delimiters, bytes, byteRunStart, nextSetIndex);
     }
 
     byteRunStart = nextSetIndex;
@@ -101,19 +102,18 @@ function convertWithExtensions (allowedCharacterSets, bytes, delimiters, appendR
   return output;
 }
 
-function convertWithoutExtensions (encoding, bytes) {
+function convertWithoutExtensions (encoding, delimiters, bytes) {
   const retVal = new TextDecoder(encoding).decode(bytes);
 
-
-  return (encoding === 'shift-jis') ? adjustShiftJISResult(retVal) : retVal;
+  return (encoding === 'shift-jis') ? adjustShiftJISResult(delimiters, retVal) : retVal;
 }
 
-function convertWithoutExtensionsPromise (encoding, bytes) {
+function convertWithoutExtensionsPromise (encoding, delimiters, bytes) {
   return new Promise((resolve) => {
     const fileReader = new FileReader();
 
     if (encoding === 'shift-jis') {
-      fileReader.onload = () => resolve(adjustShiftJISResult(fileReader.result));
+      fileReader.onload = () => resolve(adjustShiftJISResult(delimiters, fileReader.result));
     } else {
       fileReader.onload = () => resolve(fileReader.result);
     }
